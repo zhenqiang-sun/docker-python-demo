@@ -1,0 +1,18 @@
+version: "3"  # docker-compose版本
+services:
+  docker-python-demo:  # docker-compose编排名称，一般同微服务名称，注意不要与其他服务重名
+    image: "python:3.7.0b4"  # docker镜像名及版本
+    hostname: docker-python-demo  # docker容器主机名
+    container_name: docker-python-demo  # docker容器名
+    volumes:  # 挂载目录
+      - ../app:/app  # 项目相关
+      - ../docker:/docker  # docker相关
+    ports:  # 端口映射
+      - "8880:8880"
+    environment:  # 配置环境变量
+      - TZ=Asia/Shanghai  # 设置时区
+    command: bash /docker/run.sh  # 设置启动命令
+    network_mode: bridge  # 网络模式：host、bridge、none等，我们使用bridge
+    restart: unless-stopped  # 自动启动：unless-stopped、always等，unless-stopped为非正常停止则自动启动
+#    external_links: # 外链其他服务,此处名称为docker-compose编排名
+#      - mongodb
